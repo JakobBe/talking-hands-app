@@ -1,0 +1,31 @@
+export const categories = {
+  "animals": {name: "Tiere", color: "#FFFB00"},
+  "food": {name: "Lebensmittel", color: "#FF88B2"},
+  "kitchen": {name: "Küche", color: "#E63B7A"},
+  "humans": {name: "Menschen", color: "#FFB5AF"},
+  "feeelings": {name: "Gefühle", color: "#F9D3E0" },
+  "hobbies": {name: "Hobbies/Spielen/Sport", color: "#0EABB3" },
+  "weather": {name: "Wetter", color: "#8EF375" },
+  "objects": {name: "Gegenstände", color: "#FF6A00" },
+  "manners": {name: "Höflichkeitsformen", color: "#9929BD" },
+  "nature": {name: "Natur", color: "#5C8F2B"},
+  "activites": {name: "Aktivitäten", color: "#0042AA"},
+  "hygiene": {name: "Hygiene", color: "#53D5FD"},
+  "adjectives": {name: "Wie-Wörter", color: "#3A88FE"},
+};
+
+export const categoriesArray = [
+  ["animals", {name: "Tiere", color: "#FFFB00"}],
+  ["food", {name: "Lebensmittel", color: "#FF88B2"}],
+  ["kitchen", {name: "Küche", color: "#E63B7A"}],
+  ["humans", {name: "Menschen", color: "#FFB5AF"}],
+  ["feeelings", {name: "Gefühle", color: "#F9D3E0" }],
+  ["hobbies", {name: "Hobbies/Spielen/Sport", color: "#0EABB3" }],
+  ["weather", {name: "Wetter", color: "#8EF375" }],
+  ["objects", {name: "Gegenstände", color: "#FF6A00" }],
+  ["manners", {name: "Höflichkeitsformen", color: "#9929BD" }],
+  ["nature", {name: "Natur", color: "#5C8F2B"}],
+  ["activites", {name: "Aktivitäten", color: "#0042AA"}],
+  ["hygiene", {name: "Hygiene", color: "#53D5FD"}],
+  ["adjectives", {name: "Wie-Wörter", color: "#3A88FE"}],
+];
