@@ -1,12 +1,25 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {View, Text, TouchableOpacity, Animated} from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 
-
 const Footer = () => { 
   const [isOpen, setIsOpen ] = useState(() => false);
+  const footerWidth = useRef(new Animated.Value(15)).current;
+  const textOpacity = useRef(new Animated.Value(0)).current;
 
   const toggleFooter = () => {
+    console.log('hello')
+    Animated.timing(footerWidth, {
+      toValue: isOpen ? 15 : 95,
+      duration: 500,
+      useNativeDriver: true
+    }).start();
+
+    Animated.timing(textOpacity, {
+      toValue: isOpen ? 0 : 1,
+      duration: 1000,
+      useNativeDriver: true
+    }).start();
     setIsOpen((prevIsOpen) => !prevIsOpen);
   }
 
@@ -18,32 +31,42 @@ const Footer = () => {
     Actions.gestureIndex({ type: ActionConst.REPLACE });
   }
 
-
-  if (isOpen) {
+  const renderFooterContent = () => {
     return (
-      <TouchableOpacity onPress={toggleFooter} style={styles.footerContainer}>
-        <View style={styles.footerItemWrapper}>
-          <TouchableOpacity onPress={onCategoriesPress}>
-            <Text style={styles.footerItemTitle}>
-              Kategorien
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onHomePress}>
-            <Text style={styles.footerItemTitle}>
-              Gebärden
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.footerItemWrapper}>
+        <TouchableOpacity onPress={onCategoriesPress}>
+          <Animated.Text style={[styles.footerItemTitle, {opacity: textOpacity}]}>
+            Kategorien
+          </Animated.Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onHomePress}>
+          <Animated.Text style={[styles.footerItemTitle, {opacity: textOpacity}]}>
+            Gebärden
+          </Animated.Text>
+        </TouchableOpacity>
+      </View>
     );
   }
+
   return (
-    <TouchableOpacity onPress={toggleFooter} style={styles.footerContainerClosed}>
-      <Text>
-        |||
-      </Text>
+    <TouchableOpacity onPress={toggleFooter}>
+      <Animated.View 
+        style={[styles.footerContainer, {scaleX: footerWidth.interpolate({ 
+          inputRange: [15, 95],
+          outputRange: ['15%', '95%']
+        })}]}
+      >
+        {/* {renderFooterContent()} */}
+      </Animated.View>
     </TouchableOpacity>
   );
+  // return (
+  //   <TouchableOpacity onPress={toggleFooter} style={styles.footerContainerClosed}>
+  //     <Text>
+  //       |||
+  //     </Text>
+  //   </TouchableOpacity>
+  // );
 }
 
 const styles = {
@@ -75,12 +98,13 @@ const styles = {
     backgroundColor: '#F7E3EA',
     height: 60,
     flex: 0,
+    borderRadius: 30,
     flexDirect: 'row',
     position: 'absolute',
+    right: 0,
     bottom: 10,
     margin: 10,
     borderRadius: 20,
-    width: '95%',
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
