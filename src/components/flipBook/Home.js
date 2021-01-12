@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import {View, StyleSheet, ImageBackground} from 'react-native';
 import {Button} from '../shared';
-import { Actions, ActionConst } from 'react-native-router-flux';
+import {Actions, ActionConst} from 'react-native-router-flux';
+import {colors} from '../../helpers/styles';
 
 class Home extends React.Component {
   onGestureIndexPress = (type) => {
-    Actions.gestureIndex({ title: type });
-  }
+    Actions.gestureIndex({title: type});
+  };
 
   render() {
     return (
@@ -18,17 +19,19 @@ class Home extends React.Component {
             <Button
               onPress={() => this.onGestureIndexPress('DGS')}
               title="DGS"
+              additionalButtonTextStyles={{color: colors.dgs}}
             />
             <Button
               onPress={() => this.onGestureIndexPress('GUK')}
               title="GUK"
+              additionalButtonTextStyles={{color: colors.guk}}
             />
           </View>
         </ImageBackground>
       </View>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     width: '100%',
     height: '100%',
-  }
+  },
 });
 
 export default Home;

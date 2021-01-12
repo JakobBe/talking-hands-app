@@ -18,9 +18,10 @@ const styles = {
   buttonStyle: {
     width: 135,
     height: 60,
-    borderColor: '#6FD4C6',
-    borderWidth: 4,
+    borderColor: 'white',
+    borderWidth: 2,
     margin: 10,
+    paddingTop: 5
   },
 
   textStyle: {

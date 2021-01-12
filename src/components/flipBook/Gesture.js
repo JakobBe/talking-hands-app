@@ -1,12 +1,20 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+} from 'react-native';
 import Sound from 'react-native-sound';
 import {getPreSignedUrl} from '../../../AWSClient';
-import {Button} from '../shared';
 import Footer from '../Footer';
+import {colors} from '../../helpers/styles';
 
 class Gesture extends React.Component {
   state = {};
+  deviceWidth = Dimensions.get('window').width;
 
   componentDidMount() {
     this.getGif(this.props.gifUrl);
@@ -33,7 +41,7 @@ class Gesture extends React.Component {
   getDrawing = async (drawingUrl) => {
     await getPreSignedUrl(drawingUrl).then((drawing) => {
       this.setState({
-        drawing
+        drawing,
       });
     });
   };
@@ -46,15 +54,20 @@ class Gesture extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.gestureContainer}>
+          <Text style={styles.name}>{this.props.gestureName}</Text>
+          <TouchableOpacity onPress={() => this.playSound()}>
+            <Image
+              style={styles.soundIcon}
+              source={require('../../../assets/images/sound.png')}
+            />
+          </TouchableOpacity>
           <Image
-            style={{width: 350, height: 350}}
+            style={{
+              width: this.deviceWidth - 20,
+              height: this.deviceWidth - 20,
+            }}
             source={{uri: this.state.gif}}
           />
-          <TouchableOpacity onPress={() => this.playSound()}>
-            <Text style={styles.name}>
-              {this.props.gestureName}
-            </Text>
-          </TouchableOpacity>
           <Image
             style={{width: 150, height: 150}}
             source={{uri: this.state.drawing}}
@@ -70,15 +83,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
   },
 
   gestureContainer: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 40,
-    backgroundColor: '#F7E3EA',
+    backgroundColor: colors.background,
+  },
+
+  soundIcon: {
+    height: 170,
+    width: 170,
+    margin: -60,
+    marginBottom: -40,
   },
 
   buttonWrapper: {
@@ -95,8 +113,10 @@ const styles = StyleSheet.create({
   name: {
     margin: 20,
     fontSize: 30,
-    color: '#FC460A',
-  }
+    color: colors.primary,
+    fontWeight: '600',
+    fontFamily: 'Futura',
+  },
 });
 
 export default Gesture;

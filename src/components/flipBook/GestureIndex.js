@@ -1,26 +1,55 @@
 import React from 'react';
-import { View, StyleSheet, Text, FlatList, RefreshControl, TouchableOpacity, Image } from 'react-native';
-import { Actions, ActionConst } from 'react-native-router-flux';
-import {Button} from '../shared';
-import { GestureContext } from '../GestureContextHolder';
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from 'react-native';
+import {Actions, ActionConst} from 'react-native-router-flux';
+import {Button, CustomHeader} from '../shared';
+import {GestureContext} from '../GestureContextHolder';
 import Footer from '../Footer';
+import {colors} from '../../helpers/styles';
+import {sortByKey} from '../../helpers/functions';
 
 class GestureIndex extends React.Component {
   state = {
-    refreshing: false
+    refreshing: false,
+    gestures: this.props.gestureContext.gestures,
   };
 
-  _onRefresh = () => {
-    this.props.gestureContext.fetchGestures;
-  }
+  _onRefresh = async () => {
+    await this.props.gestureContext.fetchGestures();
+  };
+
+  getGestures = () => {
+    let gestures = [...this.props.gestureContext.gestures];
+
+    if (this.props.category !== undefined && this.props.searchQuery === undefined) {
+      gestures = gestures.filter((gesture) => gesture.category === this.props.category);
+    }
+
+    if (this.props.searchQuery !== undefined) {
+      gestures = gestures.filter((gesture) => gesture.name.toLowerCase().includes(this.props.searchQuery.toLowerCase()));
+    }
+
+    return sortByKey(gestures, 'name');
+  };
 
   onGesturePress = (gesture) => {
-    console.log('gesture', gesture);
-    const { gifUrl, mp3Url, drawingUrl, name } = gesture;
-    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name });
-  }
+    const {gifUrl, mp3Url, drawingUrl, name} = gesture;
+    Actions.gesture({gifUrl, mp3Url, drawingUrl, gestureName: name});
+  };
 
   render() {
+    console.log('this.props', this.props);
+    const deviceWidth = Dimensions.get('window').width;
+    const gestures = this.getGestures();
+
     return (
       <View style={styles.container}>
         <View style={styles.gestureIndexContainer}>
@@ -28,21 +57,34 @@ class GestureIndex extends React.Component {
           <View style={styles.line}></View> */}
           <FlatList
             style={styles.listWrapper}
-            data={this.props.gestureContext.gestures}
-            numColumns={2}
+            data={gestures}
+            numColumns={1}
+            contentContainerStyle={styles.listContainer}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
                 onRefresh={this._onRefresh}
-                tintColor={'#FC460A'}
+                tintColor={colors.primary}
               />
             }
             renderItem={(item) => (
               <TouchableOpacity
-                style={{width: 200, height: 200, alignItems: 'center', margin: 0, marginBottom: 20}}
+                style={{
+                  width: deviceWidth / 1.5,
+                  // height: deviceWidth / 2,
+                  alignItems: 'center',
+                  margin: 5,
+                  flex: 0,
+                  flexDirection: 'row',
+                }}
                 onPress={() => this.onGesturePress(item.item)}>
                 <Image
-                  style={{width: 150, height: 150}}
+                  style={{
+                    width: deviceWidth / 5,
+                    height: deviceWidth / 5,
+                    borderColor: 'white',
+                    borderWidth: 2,
+                  }}
                   source={{uri: item.item.stillUrl}}
                 />
                 <Text style={styles.gestureTitle}>{item.item.name}</Text>
@@ -60,20 +102,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
   },
 
   gestureIndexContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F7E3EA',
+    backgroundColor: colors.background,
   },
 
   title: {
     color: '#6FD4C6',
     fontSize: 40,
     fontWeight: '400',
+    fontFamily: 'Futura',
   },
 
   line: {
@@ -84,23 +127,32 @@ const styles = StyleSheet.create({
   },
 
   gestureTitle: {
-    fontSize: 22,
-    color: '#FC460A',
+    fontSize: 18,
+    color: colors.primary,
     margin: 10,
+    fontFamily: 'Futura',
   },
 
   listWrapper: {
-    paddingTop: 40,
+    paddingTop: 20,
     width: '100%',
     flex: 1,
     flexDirection: 'column',
-    paddingBottom: 100
+    paddingBottom: 100,
     // justifyContent: "space-between",
-  }
+  },
+
+  listContainer: {
+    alignItems: 'center',
+    paddingLeft: 80,
+    paddingBottom: 50,
+  },
 });
 
 export default (props) => (
   <GestureContext.Consumer>
-    {gestureContext => <GestureIndex {...props} gestureContext={gestureContext}/>}
+    {(gestureContext) => (
+      <GestureIndex {...props} gestureContext={gestureContext} />
+    )}
   </GestureContext.Consumer>
 );
