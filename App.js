@@ -1,12 +1,13 @@
 import React from 'react';
 import GestureContextHolder from './src/components/GestureContextHolder';
 import Router from './src/components/Router';
-console.disableYellowBox = true;
+import {LogBox} from 'react-native';
+LogBox.ignoreAllLogs();
 
 const App = () => {
   console.log('Start App');
   return (
-    <GestureContextHolder >
+    <GestureContextHolder>
       <Router />
     </GestureContextHolder>
   );
