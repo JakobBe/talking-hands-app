@@ -1,27 +1,19 @@
-import React, {useState, useRef} from 'react';
-import {View, Text, TouchableOpacity, Animated, Image} from 'react-native';
-import {Actions, ActionConst} from 'react-native-router-flux';
-import {colors} from '../../helpers/styles';
-import {findInArray} from '../../helpers/functions';
+import React, { useState, useRef } from 'react';
+import { View, Text, TouchableOpacity, Animated, Image } from 'react-native';
+import { Actions, ActionConst } from 'react-native-router-flux';
+import { colors } from '../../helpers/styles';
 
-const Footer = ({navigation}) => {
-  const {state} = navigation;
-
+const Footer = (props) => {
   const onCategoriesPress = () => {
-    Actions.categories({title: 'Kategorien'});
+    Actions.categories({ type: ActionConst.RESET, title: 'Kategorien' });
   };
 
   const onHomePress = () => {
-    Actions.home({type: ActionConst.RESET});
+    Actions.home({ type: ActionConst.RESET });
   };
 
   const onAlphaPress = () => {
-    console.log('navigation', navigation);
-    if (findInArray(state.routes || [], 'name', 'gestureIndex')) {
-      Actions.gestureIndex({type: ActionConst.POP_TO, title: 'DGS'});
-    } else {
-      Actions.gestureIndex({title: 'DGS'});
-    }
+    Actions.gestureIndex({ type: ActionConst.RESET, title: 'DGS' });
   };
 
   return (
@@ -29,19 +21,19 @@ const Footer = ({navigation}) => {
       <TouchableOpacity onPress={onHomePress}>
         <Image
           source={require('../../../assets/images/home.png')}
-          style={styles.icon}
+          style={styles.icon(false)}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={onAlphaPress}>
         <Image
           source={require('../../../assets/images/alpha.png')}
-          style={styles.icon}
+          style={styles.icon(props.navigation.state.routeName === 'gestureIndex')}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={onCategoriesPress}>
         <Image
           source={require('../../../assets/images/categories.png')}
-          style={styles.icon}
+          style={styles.icon(props.navigation.state.routeName === 'categories' || props.navigation.state.routeName === 'category')}
         />
       </TouchableOpacity>
     </View>
@@ -58,9 +50,12 @@ const styles = {
     flexDirection: 'row',
   },
 
-  icon: {
-    height: 100,
-    width: 100,
+  icon: (active) => {
+    return {
+      height: 120,
+      width: 120,
+      opacity: active ? 1 : 0.5,
+    };
   },
 };
 

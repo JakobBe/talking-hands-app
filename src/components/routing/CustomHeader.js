@@ -1,30 +1,66 @@
-import React, {ref} from 'react';
-import {View, Text, Image, TouchableOpacity, Animated, Dimensions, TextInput} from 'react-native';
-import {colors} from '../../helpers/styles';
-import {Actions, ActionConst} from 'react-native-router-flux';
-import {categories} from '../../helpers/variables';
+import React, { ref } from 'react';
+import { View, Text, Image, TouchableOpacity, Animated, Dimensions, TextInput } from 'react-native';
+import { colors } from '../../helpers/styles';
+import { Actions, ActionConst } from 'react-native-router-flux';
+import { categories } from '../../helpers/variables';
+import { findInArrayOfObjects } from '../../helpers/functions';
+import { GestureContext } from '../GestureContextHolder';
 
 class CustomHeader extends React.Component {
   state = {
     isSearchOpen: false,
-    searchQuery: ''
+    searchQuery: '',
   };
 
   searchInput = new Animated.Value(0);
   searchInputBorder = new Animated.Value(0);
 
+  componentDidMount() {
+    // console.log('Header mount');
+  }
+
+  componentDidUpdate() {
+    if (Actions.currentScene === "gestureIndex" && this.state.isSearchOpen) {
+      this.secondTextInput.focus();
+    }
+
+    if (Actions.currentScene === "gesture" && this.state.isSearchOpen) {
+      console.log('this.props.navigation', this.props.navigation)
+      // Actions.refresh({ title: 'DGS', searchQuery: '' });
+      // this.setState({
+      //   isSearchOpen: false,
+      //   searchQuery: ''
+      // });
+
+      // Animated.timing(this.searchInput, {
+      //   toValue: 0,
+      //   duration: 200,
+      //   useNativeDriver: false
+      // }).start();
+
+      // Animated.timing(this.searchInputBorder, {
+      //   toValue: 0,
+      //   duration: 200,
+      //   useNativeDriver: false
+      // }).start();
+
+      // this.onSearchQueryChange('');
+    }
+    // console.log('Header update');
+  }
+
   toggleSearchInput = () => {
-    console.log('hello', this.searchInput);
+    console.log('triggered?')
     Animated.timing(this.searchInput, {
       toValue: this.state.isSearchOpen ? 0 : 270,
       duration: 400,
-      // useNativeDriver: true
+      useNativeDriver: false
     }).start();
 
     Animated.timing(this.searchInputBorder, {
       toValue: this.state.isSearchOpen ? 0 : 2,
       duration: 400,
-      // useNativeDriver: true
+      useNativeDriver: false
     }).start();
 
     if (this.state.isSearchOpen === false) {
@@ -34,8 +70,8 @@ class CustomHeader extends React.Component {
     }
 
     this.setState({
-      isSearchOpen: !this.state.isSearchOpen,
-    })
+      isSearchOpen: !this.state.isSearchOpen
+    });
   }
 
   onBack = () => {
@@ -50,15 +86,15 @@ class CustomHeader extends React.Component {
     const scene = Actions.currentScene;
 
     if (scene !== 'gestureIndex') {
-      Actions.gestureIndex({title: 'DGS', searchQuery});
+      Actions.gestureIndex({ title: 'DGS', searchQuery, type: ActionConst.RESET });
       this.secondTextInput.focus();
     } else {
-      Actions.refresh({title: 'DGS', searchQuery});
+      Actions.refresh({ title: 'DGS', searchQuery });
     }
   }
 
   getTitle = () => {
-    console.log('this.props', this.props);
+    // console.log('this.props', this.props);
     const routes = this.props.navigation.state.routes;
     const categoryRoute = routes.find((route) => route.params.category !== undefined);
 
@@ -74,40 +110,54 @@ class CustomHeader extends React.Component {
         title = 'Kategorien';
         break;
       case 'gestureIndex':
-        title = 'DGS';
+        title = this.props.gestureContext.lenguage;
         break;
     }
 
     return title;
   };
 
-  render() {
-    console.log('Render Header');
-    const deviceWidth = Dimensions.get('window').width;
-    const title = this.getTitle();
-    return (
-      <View style={styles.customHeader(deviceWidth)}>
+  getBackButton = () => {
+    const scene = Actions.currentScene;
+    if (scene === 'categories' || scene === 'gestureIndex') {
+      return (
+        <View />
+      );
+    } else {
+      return (
         <TouchableOpacity onPress={() => this.onBack()} style={styles.leftIcon}>
           <Image
             source={require('../../../assets/images/back.png')}
             style={styles.icon}
           />
         </TouchableOpacity>
+      );
+    }
+  }
+
+  render() {
+    console.log('this.state', this.state);
+    const deviceWidth = Dimensions.get('window').width;
+    const title = this.getTitle();
+    return (
+      <View style={styles.customHeader(deviceWidth)}>
+        {this.getBackButton()}
         <Text style={styles.headerText}>{title}</Text>
         <Animated.View
           style={[
-              styles.searchInput,
-              {
-                width: this.searchInput,
-                borderWidth: this.searchInputBorder,
-              },
+            styles.searchInput,
+            {
+              width: this.searchInput,
+              borderWidth: this.searchInputBorder,
+            },
           ]}
         >
-          <TextInput 
+          <TextInput
             style={styles.searchInputText}
             ref={(input) => { this.secondTextInput = input; }}
             onChangeText={this.onSearchQueryChange}
-            // onBlur={this.onBack}
+            value={this.state.searchQuery}
+          // onBlur={this.onBack}
           >
           </TextInput>
         </Animated.View>
@@ -141,7 +191,7 @@ const styles = {
     position: 'absolute',
     height: 45,
     right: 10,
-    bottom: 0,
+    bottom: -10,
     borderRadius: 20,
     borderWidth: 2,
     borderColor: colors.guk,
@@ -164,13 +214,13 @@ const styles = {
 
   leftIcon: {
     position: 'absolute',
-    top: -0,
+    top: 10,
     left: -30,
   },
 
   rightIcon: {
     position: 'absolute',
-    top: -0,
+    top: 10,
     right: -30,
   },
 
@@ -180,4 +230,11 @@ const styles = {
   },
 };
 
-export {CustomHeader};
+
+export default (props) => (
+  <GestureContext.Consumer>
+    {(gestureContext) => (
+      <CustomHeader {...props} gestureContext={gestureContext} />
+    )}
+  </GestureContext.Consumer>
+);
