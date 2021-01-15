@@ -9,12 +9,12 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {Actions, ActionConst} from 'react-native-router-flux';
-import {Button, CustomHeader} from '../shared';
-import {GestureContext} from '../GestureContextHolder';
+import { Actions, ActionConst } from 'react-native-router-flux';
+import { Button, CustomHeader } from '../shared';
+import { GestureContext } from '../GestureContextHolder';
 import Footer from '../routing/Footer';
-import {colors} from '../../helpers/styles';
-import {sortByKey} from '../../helpers/functions';
+import { colors } from '../../helpers/styles';
+import { sortByKey } from '../../helpers/functions';
 
 class GestureIndex extends React.Component {
   state = {
@@ -53,8 +53,8 @@ class GestureIndex extends React.Component {
   };
 
   onGesturePress = (gesture) => {
-    const {gifUrl, mp3Url, drawingUrl, name} = gesture;
-    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name, searchQuery: this.props.searchQuery});
+    const { gifUrl, mp3Url, drawingUrl, name } = gesture;
+    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name, searchQuery: this.props.searchQuery });
   };
 
   render() {
@@ -97,7 +97,7 @@ class GestureIndex extends React.Component {
                     borderColor: 'white',
                     borderWidth: 2,
                   }}
-                  source={{uri: item.item.stillUrl, cache: 'force-cache'}}
+                  source={{ uri: item.item.stillUrl, cache: 'force-cache' }}
                 />
                 <Text style={styles.gestureTitle}>{item.item.name}</Text>
               </TouchableOpacity>

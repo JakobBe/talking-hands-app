@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { categoriesArray } from '../../helpers/variables';
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import Footer from '../routing/Footer';
 import { colors } from '../../helpers/styles';
-import { CustomHeader } from '../shared';
 
 const Categories = (props) => {
   const onCategoryPress = (category, title) => {

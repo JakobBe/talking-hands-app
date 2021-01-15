@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  RefreshControl,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from 'react-native';
+import { View, StyleSheet, Text, FlatList, RefreshControl, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { Button, CustomHeader } from '../shared';
 import { GestureContext } from '../GestureContextHolder';

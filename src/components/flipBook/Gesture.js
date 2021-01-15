@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Dimensions,
-} from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
 import Sound from 'react-native-sound';
-import {getPreSignedUrl} from '../../../AWSClient';
+import { getPreSignedUrl } from '../../../AWSClient';
 import Footer from '../routing/Footer';
-import {colors} from '../../helpers/styles';
+import { colors } from '../../helpers/styles';
 
 class Gesture extends React.Component {
-  state = {showGif: true};
+  state = { showGif: true };
   deviceWidth = Dimensions.get('window').width;
 
   componentDidMount() {
@@ -67,7 +60,7 @@ class Gesture extends React.Component {
               width: this.deviceWidth - 20,
               height: this.deviceWidth - 20,
             }}
-            source={{ uri: this.state.gif, cache: 'force-cache'}}
+            source={{ uri: this.state.gif, cache: 'force-cache' }}
           />
         </TouchableOpacity>
       );
@@ -76,6 +69,7 @@ class Gesture extends React.Component {
 
   render() {
     console.log('rerender?');
+
     return (
       <View style={styles.container}>
         <View style={styles.gestureContainer}>
@@ -88,11 +82,11 @@ class Gesture extends React.Component {
           </TouchableOpacity>
           {this.getGifComp()}
           <Image
-            style={{width: 150, height: 150}}
-            source={{uri: this.state.drawing}}
+            style={{ width: 150, height: 150 }}
+            source={{ uri: this.state.drawing }}
           />
         </View>
-        <Footer navigation={this.props.navigation}/>
+        <Footer navigation={this.props.navigation} />
       </View>
     );
   }
