@@ -1,10 +1,11 @@
 import React from 'react';
-import {Scene, Router, Actions, ActionConst} from 'react-native-router-flux';
+import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import Home from './flipBook/Home';
 import GestureIndex from './flipBook/GestureIndex';
 import Gesture from './flipBook/Gesture';
 import Categories from './flipBook/Categories';
-import {CustomHeader} from '../components/shared';
+import Category from './flipBook/Category';
+import CustomHeader from '../components/routing/CustomHeader';
 
 const RouterComponent = () => {
   return (
@@ -32,6 +33,12 @@ const RouterComponent = () => {
         <Scene
           key="categories"
           component={Categories}
+          duration={0}
+          navBar={CustomHeader}
+        />
+        <Scene
+          key="category"
+          component={Category}
           duration={0}
           navBar={CustomHeader}
         />
