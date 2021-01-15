@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, FlatList, Dimensions} from 'react-native';
-import {categoriesArray} from '../../helpers/variables';
-import {Actions, ActionConst} from 'react-native-router-flux';
-import Footer from '../Footer';
-import {colors} from '../../helpers/styles';
-import {CustomHeader} from '../shared';
+import { View, Text, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { categoriesArray } from '../../helpers/variables';
+import { Actions, ActionConst } from 'react-native-router-flux';
+import Footer from '../routing/Footer';
+import { colors } from '../../helpers/styles';
+import { CustomHeader } from '../shared';
 
 const Categories = (props) => {
   const onCategoryPress = (category, title) => {
-    Actions.gestureIndex({category, title});
+    Actions.category({ category, title });
   };
 
   const deviceWidth = Dimensions.get('window').width;
@@ -21,7 +21,7 @@ const Categories = (props) => {
           data={categoriesArray}
           contentContainerStyle={styles.listContainer}
           numColumns={3}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.category(deviceWidth, item[1].backgroundColor)}
               onPress={() => onCategoryPress(item[0], item[1].name)}>
@@ -32,7 +32,7 @@ const Categories = (props) => {
           )}
         />
       </View>
-      <Footer />
+      <Footer navigation={props.navigation} />
     </View>
   );
 };

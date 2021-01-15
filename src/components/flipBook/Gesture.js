@@ -9,17 +9,25 @@ import {
 } from 'react-native';
 import Sound from 'react-native-sound';
 import {getPreSignedUrl} from '../../../AWSClient';
-import Footer from '../Footer';
+import Footer from '../routing/Footer';
 import {colors} from '../../helpers/styles';
 
 class Gesture extends React.Component {
-  state = {};
+  state = {showGif: true};
   deviceWidth = Dimensions.get('window').width;
 
   componentDidMount() {
     this.getGif(this.props.gifUrl);
     this.getSound(this.props.mp3Url);
     this.getDrawing(this.props.drawingUrl);
+  }
+
+  componentDidUpdate() {
+    if (this.state.showGif === false) {
+      this.setState({
+        showGif: true,
+      });
+    }
   }
 
   getGif = async (gifUrl) => {
@@ -50,7 +58,24 @@ class Gesture extends React.Component {
     this.state.sound.play();
   };
 
+  getGifComp = () => {
+    if (this.state.showGif) {
+      return (
+        <TouchableOpacity onPress={() => this.setState({ showGif: false })}>
+          <Image
+            style={{
+              width: this.deviceWidth - 20,
+              height: this.deviceWidth - 20,
+            }}
+            source={{ uri: this.state.gif, cache: 'force-cache'}}
+          />
+        </TouchableOpacity>
+      );
+    }
+  }
+
   render() {
+    console.log('rerender?');
     return (
       <View style={styles.container}>
         <View style={styles.gestureContainer}>
@@ -61,19 +86,13 @@ class Gesture extends React.Component {
               source={require('../../../assets/images/sound.png')}
             />
           </TouchableOpacity>
-          <Image
-            style={{
-              width: this.deviceWidth - 20,
-              height: this.deviceWidth - 20,
-            }}
-            source={{uri: this.state.gif}}
-          />
+          {this.getGifComp()}
           <Image
             style={{width: 150, height: 150}}
             source={{uri: this.state.drawing}}
           />
         </View>
-        <Footer />
+        <Footer navigation={this.props.navigation}/>
       </View>
     );
   }

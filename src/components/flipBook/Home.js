@@ -1,17 +1,22 @@
 import React from 'react';
-import {View, StyleSheet, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground, Dimensions} from 'react-native';
 import {Button} from '../shared';
 import {Actions, ActionConst} from 'react-native-router-flux';
 import {colors} from '../../helpers/styles';
+import {GestureContext} from '../GestureContextHolder';
 
 class Home extends React.Component {
   onGestureIndexPress = (type) => {
+    this.props.gestureContext.setLenguage(type);
     Actions.gestureIndex({title: type});
   };
 
   render() {
+    const deviceWidth = Dimensions.deviceWidth;
+    const deviceHeight = Dimensions.deviceHeight;
+
     return (
-      <View style={styles.container}>
+      <View style={styles.container(deviceWidth, deviceHeight)}>
         <ImageBackground
           source={require('../../../assets/images/homescreen.gif')}
           style={styles.backgroundImage}>
@@ -34,11 +39,15 @@ class Home extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F7E3EA',
+  container: (width, height) => {
+    return {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F7E3EA',
+      width,
+      height,
+    };
   },
 
   buttonWrapper: {
@@ -57,4 +66,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+
+export default (props) => (
+  <GestureContext.Consumer>
+    {(gestureContext) => (
+      <Home {...props} gestureContext={gestureContext} />
+    )}
+  </GestureContext.Consumer>
+);
