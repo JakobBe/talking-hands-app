@@ -13,6 +13,6 @@ export const sortByKey = (array, key) => {
   return array;
 };
 
-export const findInArray = (array, key, searchValue) => {
+export const findInArrayOfObjects = (array, key, searchValue) => {
   return array.find(element => element[key] === searchValue);
 };
