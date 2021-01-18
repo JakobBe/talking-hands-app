@@ -1,10 +1,10 @@
 import AWS from 'aws-sdk';
-import {awsS3DevUser, awsmobile} from './aws-exports';
-import Amplify, {API} from 'aws-amplify';
+import { awsS3DevUser, awsmobile } from './aws-exports';
+import Amplify, { API } from 'aws-amplify';
 
 API.configure(awsmobile);
 
-export const appSyncGraphQl = async ({query, variables, sort, limit, filter}) => {
+export const appSyncGraphQl = async ({ query, variables, sort, limit, filter }) => {
   try {
     const res = await Amplify.API.graphql({
       query,
@@ -14,7 +14,6 @@ export const appSyncGraphQl = async ({query, variables, sort, limit, filter}) =>
       filter
     });
 
-    console.log('res, filter', res, filter);
     return { status: 200, res: res.data }
   } catch (error) {
     console.log('error', error);
