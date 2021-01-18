@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, Animated, Dimensions, TextInput } 
 import { colors } from '../../helpers/styles';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { categories } from '../../helpers/variables';
-import { findInArrayOfObjects } from '../../helpers/functions';
 import { GestureContext } from '../GestureContextHolder';
 
 class CustomHeader extends React.Component {
@@ -15,42 +14,14 @@ class CustomHeader extends React.Component {
   searchInput = new Animated.Value(0);
   searchInputBorder = new Animated.Value(0);
 
-  componentDidMount() {
-    // console.log('Header mount');
-  }
 
   componentDidUpdate() {
     if (Actions.currentScene === "gestureIndex" && this.state.isSearchOpen) {
       this.secondTextInput.focus();
     }
-
-    if (Actions.currentScene === "gesture" && this.state.isSearchOpen) {
-      console.log('this.props.navigation', this.props.navigation)
-      // Actions.refresh({ title: 'DGS', searchQuery: '' });
-      // this.setState({
-      //   isSearchOpen: false,
-      //   searchQuery: ''
-      // });
-
-      // Animated.timing(this.searchInput, {
-      //   toValue: 0,
-      //   duration: 200,
-      //   useNativeDriver: false
-      // }).start();
-
-      // Animated.timing(this.searchInputBorder, {
-      //   toValue: 0,
-      //   duration: 200,
-      //   useNativeDriver: false
-      // }).start();
-
-      // this.onSearchQueryChange('');
-    }
-    // console.log('Header update');
   }
 
   toggleSearchInput = () => {
-    console.log('triggered?')
     Animated.timing(this.searchInput, {
       toValue: this.state.isSearchOpen ? 0 : 270,
       duration: 400,
@@ -94,7 +65,6 @@ class CustomHeader extends React.Component {
   }
 
   getTitle = () => {
-    // console.log('this.props', this.props);
     const routes = this.props.navigation.state.routes;
     const categoryRoute = routes.find((route) => route.params.category !== undefined);
 
@@ -136,7 +106,6 @@ class CustomHeader extends React.Component {
   }
 
   render() {
-    console.log('this.state', this.state);
     const deviceWidth = Dimensions.get('window').width;
     const title = this.getTitle();
     return (
