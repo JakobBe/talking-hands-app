@@ -1,6 +1,6 @@
 import React from 'react';
-import {listGestures} from '../graphql/queries';
-import {getPreSignedUrl, appSyncGraphQl} from '../../AWSClient';
+import { listGestures } from '../graphql/queries';
+import { getPreSignedUrl, appSyncGraphQl } from '../../AWSClient';
 
 export const GestureContext = React.createContext({});
 
@@ -15,8 +15,7 @@ class GestureContextHolder extends React.Component {
   }
 
   fetchGestures = async () => {
-    console.log('Start fetch');
-    await appSyncGraphQl({query: listGestures}).then((res) => {
+    await appSyncGraphQl({ query: listGestures }).then((res) => {
       if (res.status === 200) {
         let gestures = res.res.listGestures.items;
         gestures.map((gesture) => {
@@ -25,13 +24,9 @@ class GestureContextHolder extends React.Component {
           });
         });
 
-        console.log('gestures from context', gestures);
         this.setState({
           gestures,
         });
-        return 'Hello World';
-      } else {
-        console.log('res', res);
       }
     });
   };
