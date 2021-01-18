@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, FlatList, RefreshControl, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Actions, ActionConst } from 'react-native-router-flux';
-import { Button, CustomHeader } from '../shared';
+import { Actions } from 'react-native-router-flux';
 import { GestureContext } from '../GestureContextHolder';
 import Footer from '../routing/Footer';
 import { colors } from '../../helpers/styles';
@@ -49,7 +48,6 @@ class Category extends React.Component {
   };
 
   render() {
-    console.log('this.props', this.props);
     const deviceWidth = Dimensions.get('window').width;
     const gestures = this.getGestures();
 

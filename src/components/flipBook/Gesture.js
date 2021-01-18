@@ -68,8 +68,6 @@ class Gesture extends React.Component {
   }
 
   render() {
-    console.log('rerender?');
-
     return (
       <View style={styles.container}>
         <View style={styles.gestureContainer}>

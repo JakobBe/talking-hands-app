@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { Button } from '../shared';
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import { colors } from '../../helpers/styles';
 import { GestureContext } from '../GestureContextHolder';
 
@@ -14,8 +14,6 @@ class Home extends React.Component {
   render() {
     const deviceWidth = Dimensions.deviceWidth;
     const deviceHeight = Dimensions.deviceHeight;
-
-    console.log('hallo');
 
     return (
       <View style={styles.container(deviceWidth, deviceHeight)}>
