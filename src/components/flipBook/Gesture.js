@@ -5,6 +5,8 @@ import { getPreSignedUrl } from '../../../AWSClient';
 import Footer from '../routing/Footer';
 import { colors } from '../../helpers/styles';
 
+Sound.setCategory('Playback');
+
 class Gesture extends React.Component {
   state = { showGif: true };
   deviceWidth = Dimensions.get('window').width;
