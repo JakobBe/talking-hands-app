@@ -16,25 +16,41 @@ const Footer = (props) => {
     Actions.gestureIndex({ type: ActionConst.RESET, title: 'DGS' });
   };
 
+  const getAlphaImage = (isActive) => {
+    const imgSource = isActive ? require('../../../assets/images/alphaDark.png') : require('../../../assets/images/alpha.png');
+
+    return (
+      <Image
+        source={imgSource}
+        style={styles.icon(props.navigation.state.routeName === 'gestureIndex')}
+      />
+    );
+  }
+
+  const getCategoriesImage = (isActive) => {
+    const imgSource = isActive ? require('../../../assets/images/categoriesDark.png') : require('../../../assets/images/categories.png');
+
+    return (
+      <Image
+        source={imgSource}
+        style={styles.icon(false)}
+      />
+    );
+  }
+
   return (
     <View style={styles.footer}>
       <TouchableOpacity onPress={onHomePress}>
         <Image
-          source={require('../../../assets/images/home.png')}
+          source={require(`../../../assets/images/home.png`)}
           style={styles.icon(false)}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={onAlphaPress}>
-        <Image
-          source={require('../../../assets/images/alpha.png')}
-          style={styles.icon(props.navigation.state.routeName === 'gestureIndex')}
-        />
+        {getAlphaImage(props.navigation.state.routeName === 'gestureIndex')}
       </TouchableOpacity>
       <TouchableOpacity onPress={onCategoriesPress}>
-        <Image
-          source={require('../../../assets/images/categories.png')}
-          style={styles.icon(props.navigation.state.routeName === 'categories' || props.navigation.state.routeName === 'category')}
-        />
+        {getCategoriesImage(props.navigation.state.routeName === 'categories')}
       </TouchableOpacity>
     </View>
   );
@@ -54,7 +70,7 @@ const styles = {
     return {
       height: 120,
       width: 120,
-      opacity: active ? 1 : 0.5,
+      opacity: 1
     };
   },
 };
