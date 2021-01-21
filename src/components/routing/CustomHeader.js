@@ -9,6 +9,7 @@ class CustomHeader extends React.Component {
   state = {
     isSearchOpen: false,
     searchQuery: '',
+    activeSearchClose: false
   };
 
   searchInput = new Animated.Value(0);
@@ -18,6 +19,19 @@ class CustomHeader extends React.Component {
   componentDidUpdate() {
     if (Actions.currentScene === "gestureIndex" && this.state.isSearchOpen) {
       this.secondTextInput.focus();
+      if (this.state.activeSearchClose) {
+        this.setState({
+          activeSearchClose: false
+        });
+      }
+    }
+
+    if (Actions.currentScene === "gesture" && this.state.isSearchOpen && !this.state.activeSearchClose) {
+      this.toggleSearchInput();
+      this.setState({
+        activeSearchClose: true,
+        searchQuery: ''
+      });
     }
   }
 
