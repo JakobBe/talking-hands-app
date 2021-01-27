@@ -6,7 +6,7 @@ export const GestureContext = React.createContext({});
 
 class GestureContextHolder extends React.Component {
   state = {
-    gestures: [],
+    gestures: { dgs: [], guk: [] },
     lenguage: ''
   };
 
@@ -18,14 +18,23 @@ class GestureContextHolder extends React.Component {
     await appSyncGraphQl({ query: listGestures }).then((res) => {
       if (res.status === 200) {
         let gestures = res.res.listGestures.items;
+        let sortedGestures = { dgs: [], guk: [] };
+
         gestures.map((gesture) => {
           getPreSignedUrl(gesture.stillUrl).then((preSignedUrl) => {
             gesture.stillUrl = preSignedUrl;
+            if (gesture.type.includes('guk')) {
+              sortedGestures.guk.push(gesture);
+            }
+
+            if (gesture.type.includes('dgs')) {
+              sortedGestures.dgs.push(gesture);
+            }
           });
         });
 
         this.setState({
-          gestures,
+          gestures: sortedGestures,
         });
       }
     });
