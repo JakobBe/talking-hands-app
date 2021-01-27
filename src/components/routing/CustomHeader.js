@@ -87,7 +87,7 @@ class CustomHeader extends React.Component {
     }
 
     const scene = Actions.currentScene;
-    let title = 'TalkingHands';
+    let title = this.props.gestureContext.lenguage;
 
     switch (scene) {
       case 'categories':
@@ -165,7 +165,6 @@ const styles = {
       height: 90,
       backgroundColor: colors.background,
       position: 'relative',
-      // width,
     };
   },
 
