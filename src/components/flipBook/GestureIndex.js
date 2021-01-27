@@ -29,7 +29,7 @@ class GestureIndex extends React.Component {
   };
 
   getGestures = () => {
-    let gestures = [...this.state.gestures];
+    let gestures = this.state.gestures[this.props.gestureContext.lenguage];
 
     if (
       this.props.category !== undefined &&

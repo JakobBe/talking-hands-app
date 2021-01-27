@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { View, ScrollView, Image, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
 import Sound from 'react-native-sound';
 import { getPreSignedUrl } from '../../../AWSClient';
 import Footer from '../routing/Footer';
@@ -72,7 +72,7 @@ class Gesture extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.gestureContainer}>
+        <ScrollView style={styles.gestureContainer} contentContainerStyle={styles.gestureContentContainer}>
           <Text style={styles.name}>{this.props.gestureName}</Text>
           <TouchableOpacity onPress={() => this.playSound()}>
             <Image
@@ -85,7 +85,7 @@ class Gesture extends React.Component {
             style={{ width: 150, height: 150 }}
             source={{ uri: this.state.drawing }}
           />
-        </View>
+        </ScrollView>
         <Footer navigation={this.props.navigation} />
       </View>
     );
@@ -101,8 +101,12 @@ const styles = StyleSheet.create({
 
   gestureContainer: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: colors.background,
+  },
+
+  gestureContentContainer: {
+    alignItems: 'center',
   },
 
   soundIcon: {

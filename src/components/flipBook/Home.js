@@ -12,22 +12,21 @@ class Home extends React.Component {
   };
 
   render() {
-    const deviceWidth = Dimensions.deviceWidth;
-    const deviceHeight = Dimensions.deviceHeight;
+    const deviceHeight = Dimensions.get('window').height;
 
     return (
-      <View style={styles.container(deviceWidth, deviceHeight)}>
+      <View style={styles.container}>
         <ImageBackground
           source={require('../../../assets/images/homescreen.gif')}
           style={styles.backgroundImage}>
-          <View style={styles.buttonWrapper}>
+          <View style={styles.buttonWrapper(deviceHeight)}>
             <Button
-              onPress={() => this.onGestureIndexPress('DGS')}
+              onPress={() => this.onGestureIndexPress('dgs')}
               title="DGS"
               additionalButtonTextStyles={{ color: colors.dgs }}
             />
             <Button
-              onPress={() => this.onGestureIndexPress('GUK')}
+              onPress={() => this.onGestureIndexPress('guk')}
               title="GUK"
               additionalButtonTextStyles={{ color: colors.guk }}
             />
@@ -39,26 +38,22 @@ class Home extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: (width, height) => {
-    return {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F7E3EA',
-      width,
-      height,
-    };
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F7E3EA',
   },
 
-  buttonWrapper: {
+  buttonWrapper: (deviceHeight) => ({
     position: 'absolute',
-    top: '41%',
+    top: deviceHeight / 2 - 80,
     flex: 1,
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
+  }),
 
   backgroundImage: {
     width: '100%',

@@ -20,22 +20,11 @@ class Category extends React.Component {
   };
 
   getGestures = () => {
-    let gestures = [...this.state.gestures];
+    let gestures = this.state.gestures[this.props.gestureContext.lenguage];
 
-    if (
-      this.props.category !== undefined &&
-      this.props.searchQuery === undefined
-    ) {
+    if (this.props.category !== undefined) {
       gestures = gestures.filter(
         (gesture) => gesture.category === this.props.category,
-      );
-    }
-
-    if (this.props.searchQuery !== undefined) {
-      gestures = gestures.filter((gesture) =>
-        gesture.name
-          .toLowerCase()
-          .includes(this.props.searchQuery.toLowerCase()),
       );
     }
 
