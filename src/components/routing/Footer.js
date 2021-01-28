@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { colors } from '../../helpers/styles';
+import { GestureContext } from '../GestureContextHolder';
 
 const Footer = (props) => {
   const onCategoriesPress = () => {
@@ -9,11 +10,15 @@ const Footer = (props) => {
   };
 
   const onHomePress = () => {
+    if (props.gestureContext.searchQuery) {
+      props.gestureContext.updateSearchQuery('');
+    }
+
     Actions.home({ type: ActionConst.RESET });
   };
 
   const onAlphaPress = () => {
-    Actions.gestureIndex({ type: ActionConst.RESET, title: 'DGS' });
+    Actions.gestureIndex({ type: ActionConst.RESET });
   };
 
   const getAlphaImage = (isActive) => {
@@ -75,4 +80,10 @@ const styles = {
   },
 };
 
-export default Footer;
+export default (props) => (
+  <GestureContext.Consumer>
+    {(gestureContext) => (
+      <Footer {...props} gestureContext={gestureContext} />
+    )}
+  </GestureContext.Consumer>
+);
