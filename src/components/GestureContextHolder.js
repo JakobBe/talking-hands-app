@@ -7,7 +7,9 @@ export const GestureContext = React.createContext({});
 class GestureContextHolder extends React.Component {
   state = {
     gestures: { dgs: [], guk: [] },
-    lenguage: ''
+    lenguage: '',
+    searchQuery: '',
+    isSearchOpen: false,
   };
 
   componentDidMount() {
@@ -46,6 +48,19 @@ class GestureContextHolder extends React.Component {
     });
   };
 
+  updateSearchQuery = (searchQuery) => {
+    this.setState({
+      searchQuery
+    });
+  }
+
+  toggleSearch = (isSearchOpen) => {
+    console.log('isSearchOpen', isSearchOpen);
+    this.setState({
+      isSearchOpen
+    });
+  }
+
   render() {
     return (
       <GestureContext.Provider
@@ -54,6 +69,10 @@ class GestureContextHolder extends React.Component {
           fetchGestures: this.fetchGestures,
           lenguage: this.state.lenguage,
           setLenguage: this.setLenguage,
+          updateSearchQuery: this.updateSearchQuery,
+          searchQuery: this.state.searchQuery,
+          isSearchOpen: this.state.isSearchOpen,
+          toggleSearch: this.toggleSearch
         }}>
         {this.props.children}
       </GestureContext.Provider>
