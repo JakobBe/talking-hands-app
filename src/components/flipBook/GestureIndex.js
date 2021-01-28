@@ -30,21 +30,22 @@ class GestureIndex extends React.Component {
 
   getGestures = () => {
     let gestures = this.state.gestures[this.props.gestureContext.lenguage];
+    const searchQuery = this.props.gestureContext.searchQuery;
 
     if (
       this.props.category !== undefined &&
-      this.props.searchQuery === undefined
+      !searchQuery
     ) {
       gestures = gestures.filter(
         (gesture) => gesture.category === this.props.category,
       );
     }
 
-    if (this.props.searchQuery !== undefined) {
+    if (searchQuery) {
       gestures = gestures.filter((gesture) =>
         gesture.name
           .toLowerCase()
-          .includes(this.props.searchQuery.toLowerCase()),
+          .includes(searchQuery.toLowerCase()),
       );
     }
 
@@ -53,11 +54,14 @@ class GestureIndex extends React.Component {
 
   onGesturePress = (gesture) => {
     const { gifUrl, mp3Url, drawingUrl, name } = gesture;
-    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name, searchQuery: this.props.searchQuery });
+    const searchQuery = this.props.gestureContext.searchQuery;
+
+    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name, searchQuery });
   };
 
   render() {
     const deviceWidth = Dimensions.get('window').width;
+    // const deviceHeight = Dimensions.get('window').height;
     const gestures = this.getGestures();
 
     return (
@@ -69,7 +73,8 @@ class GestureIndex extends React.Component {
             style={styles.listWrapper}
             data={gestures}
             numColumns={1}
-            contentContainerStyle={styles.listContainer}
+            contentContainerStyle={styles.listContainer(deviceWidth)}
+            keyboardShouldPersistTaps='handled'
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
@@ -152,11 +157,11 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between",
   },
 
-  listContainer: {
+  listContainer: (deviceWidth) => ({
     alignItems: 'center',
-    paddingLeft: 80,
+    paddingLeft: deviceWidth / 4,
     paddingBottom: 50,
-  },
+  }),
 });
 
 export default (props) => (

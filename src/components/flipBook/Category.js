@@ -49,7 +49,8 @@ class Category extends React.Component {
             style={styles.listWrapper}
             data={gestures}
             numColumns={1}
-            contentContainerStyle={styles.listContainer}
+            contentContainerStyle={styles.listContainer(deviceWidth)}
+            keyboardShouldPersistTaps='handled'
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
@@ -132,11 +133,11 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between",
   },
 
-  listContainer: {
+  listContainer: (deviceWidth) => ({
     alignItems: 'center',
-    paddingLeft: 80,
+    paddingLeft: deviceWidth / 3.8,
     paddingBottom: 50,
-  },
+  }),
 });
 
 export default (props) => (

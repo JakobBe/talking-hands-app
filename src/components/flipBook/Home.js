@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { Button } from '../shared';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { colors } from '../../helpers/styles';
 import { GestureContext } from '../GestureContextHolder';
 
 class Home extends React.Component {
   onGestureIndexPress = (type) => {
     this.props.gestureContext.setLenguage(type);
-    Actions.gestureIndex({ title: type });
+    Actions.gestureIndex({ title: type, type: ActionConst.RESET });
   };
 
   render() {

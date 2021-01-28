@@ -61,6 +61,8 @@ class Gesture extends React.Component {
             style={{
               width: this.deviceWidth - 20,
               height: this.deviceWidth - 20,
+              maxWidth: 600,
+              maxHeight: 600
             }}
             source={{ uri: this.state.gif, cache: 'force-cache' }}
           />
