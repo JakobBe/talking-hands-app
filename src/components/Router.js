@@ -23,6 +23,8 @@ const RouterComponent = () => {
           component={GestureIndex}
           duration={0}
           navBar={CustomHeader}
+          onEnter={(props) => console.log('Entered', props)}
+          onBack={(props) => console.log('On Back', props)}
         />
         <Scene
           key="gesture"
