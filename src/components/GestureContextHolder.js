@@ -55,9 +55,9 @@ class GestureContextHolder extends React.Component {
   }
 
   toggleSearch = (isSearchOpen) => {
-    console.log('isSearchOpen', isSearchOpen);
     this.setState({
-      isSearchOpen
+      isSearchOpen,
+      searchQuery: isSearchOpen ? this.state.searchQuery : ''
     });
   }
 
