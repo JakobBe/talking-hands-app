@@ -20,10 +20,12 @@ const Categories = (props) => {
           data={categoriesArray}
           contentContainerStyle={styles.listContainer}
           numColumns={3}
-          renderItem={({ item }) => (
+          renderItem={({ item }, key) => (
             <TouchableOpacity
               style={styles.category(deviceWidth, item[1].backgroundColor)}
-              onPress={() => onCategoryPress(item[0], item[1].name)}>
+              onPress={() => onCategoryPress(item[0], item[1].name)}
+              key={key}
+            >
               <Text style={styles.categoryName(item[1].color)}>
                 {item[1].name}
               </Text>
