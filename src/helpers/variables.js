@@ -33,3 +33,8 @@ export const categoriesArray = [
   ['hygiene', { name: 'Hy\u00ADgie\u00ADne', backgroundColor: '#d5ecf6', color: '#303880' }],
   ['adjectives', { name: 'Wie-Wör\u00ADter', backgroundColor: '#6988bb', color: 'white' }],
 ];
+
+export const infoText = {
+  guk: `Die Gebärden-unterstützte Kommunikation wurde von Frau Prof. Etta Wilken entwickelt. Diese Methode hilft Kindern, die nicht oder noch nicht sprechen, zu kommunizieren und sich zu verständigen. Bei der GuK werden nicht ganze Sätze, sondern Schlüsselbgegriffe gebärdet. Das Sprechenlernen wird also nicht ersetzt, sondern durch Gebärden unterstützt. Die Gebärden-Daumenkinos bieten einen Grundwortschatz, der für Kinder mit Schwierigkeiten beim Spracherwerb ausreicht, bis sie sich hinreichend lautsprachlich verständigen können.`,
+  dgs: `Die Deutsche Gebärdensprache wird erst seit 2002 offiziell als eigenständige Sprache anerkannt. Das ist auch einer der Gründe, warum es verschiedene Dialekte in der DGS gibt. Auch wurde die Gebärdensprache für lange Zeit in Bildungseinrichtungen und in der frühkindlichen Förderung abgelehnt. Um die Inklusion und Integration aller Menschen zu ermöglichen, wird Gebärdensprache mehr und mehr in der frühkindlichen Bildung eingesetzt und gefördert. Wir möchten mit unseren Daumenkinos alle Kinder für das Erlernen von Gebärden begeistern und die Neugier für das Sprechen mit den Händen erwecken.`
+}
