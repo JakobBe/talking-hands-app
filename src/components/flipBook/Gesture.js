@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Image, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { View, ScrollView, Image, StyleSheet, TouchableOpacity, Text, Dimensions, AppState } from 'react-native';
 import Sound from 'react-native-sound';
 import { getPreSignedUrl } from '../../../AWSClient';
 import Footer from '../routing/Footer';
@@ -8,13 +8,17 @@ import { colors } from '../../helpers/styles';
 Sound.setCategory('Playback');
 
 class Gesture extends React.Component {
-  state = { showGif: true };
+  state = {
+    showGif: true,
+    appState: 'active'
+  };
   deviceWidth = Dimensions.get('window').width;
 
   componentDidMount() {
     this.getGif(this.props.gifUrl);
     this.getSound(this.props.mp3Url);
     this.getDrawing(this.props.drawingUrl);
+    AppState.addEventListener('change', newState => this.setState({ appState: newState }));
   }
 
   componentDidUpdate() {
@@ -64,7 +68,7 @@ class Gesture extends React.Component {
               maxWidth: 600,
               maxHeight: 600
             }}
-            source={{ uri: this.state.gif, cache: 'force-cache' }}
+            source={{ uri: this.state.appState === 'active' ? this.state.gif : '' }}
           />
         </TouchableOpacity>
       );

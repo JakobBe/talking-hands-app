@@ -1,11 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
-import { Button } from '../shared';
+import { View, StyleSheet, ImageBackground, Dimensions, Modal, Text } from 'react-native';
+import { Button, InfoModal, InfoButton } from '../shared';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { colors } from '../../helpers/styles';
 import { GestureContext } from '../GestureContextHolder';
+import { infoText } from '../../helpers/variables';
 
 class Home extends React.Component {
+  state = {
+    isModalActive: false,
+    infoTextSelector: ''
+  }
+
   onGestureIndexPress = (type) => {
     this.props.gestureContext.setLenguage(type);
     Actions.gestureIndex({ title: type, type: ActionConst.RESET });
@@ -24,13 +30,24 @@ class Home extends React.Component {
               onPress={() => this.onGestureIndexPress('dgs')}
               title="DGS"
               additionalButtonTextStyles={{ color: colors.dgs }}
-            />
+              additionalButtonStyles={{ position: 'relative' }}
+            >
+              <InfoButton onPress={() => this.setState({ isModalActive: true, infoTextSelector: 'dgs' })} />
+            </Button>
             <Button
               onPress={() => this.onGestureIndexPress('guk')}
               title="GUK"
               additionalButtonTextStyles={{ color: colors.guk }}
-            />
+              additionalButtonStyles={{ position: 'relative' }}
+            >
+              <InfoButton onPress={() => this.setState({ isModalActive: true, infoTextSelector: 'guk' })} />
+            </Button>
           </View>
+          <InfoModal
+            visible={this.state.isModalActive}
+            text={infoText[this.state.infoTextSelector]}
+            onClose={() => this.setState({ isModalActive: false })}
+          />
         </ImageBackground>
       </View>
     );
