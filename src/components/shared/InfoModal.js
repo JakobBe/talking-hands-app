@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Modal, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, ScrollView, Modal, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { colors } from '../../helpers/styles';
 
 const InfoModal = ({ visible, text, onClose }) => {
@@ -9,17 +9,19 @@ const InfoModal = ({ visible, text, onClose }) => {
       animationType={'slide'}
       transparent={true}
     >
-      <ScrollView style={styles.infoModal} >
+      <View style={styles.infoModal}>
+        <ScrollView style={styles.infoModal__scroll} >
+          <Text style={styles.infoText}>
+            {text}
+          </Text>
+        </ScrollView>
         <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
           <Image
             source={require(`../../../assets/images/back.png`)}
             style={styles.arrow}
           />
         </TouchableOpacity>
-        <Text style={styles.infoText}>
-          {text}
-        </Text>
-      </ScrollView>
+      </View>
     </Modal>
   );
 }
@@ -28,16 +30,22 @@ const styles = StyleSheet.create({
   infoModal: {
     // margin: 40,
     backgroundColor: colors.background,
-    padding: 50,
     borderRadius: 10,
-    height: '100%',
+    paddingRight: 20,
     paddingTop: 80,
+    paddingBottom: 0,
+    paddingLeft: 40,
     position: 'relative'
+  },
+
+  infoModal__scroll: {
+    height: '100%',
+    paddingRight: 20
   },
 
   infoText: {
     // margin: 20,
-    fontSize: 24,
+    fontSize: 20,
     color: colors.primary,
     fontWeight: '600',
     fontFamily: 'Futura',
@@ -46,8 +54,8 @@ const styles = StyleSheet.create({
 
   closeBtn: {
     position: 'absolute',
-    top: -50,
-    right: -50,
+    top: 10,
+    right: -5,
     zIndex: 1
   },
 
