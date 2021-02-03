@@ -17,8 +17,8 @@ const InfoModal = ({ visible, text, onClose }) => {
         </ScrollView>
         <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
           <Image
-            source={require(`../../../assets/images/back.png`)}
-            style={styles.arrow}
+            source={require(`../../../assets/images/close.png`)}
+            style={styles.close}
           />
         </TouchableOpacity>
       </View>
@@ -28,7 +28,6 @@ const InfoModal = ({ visible, text, onClose }) => {
 
 const styles = StyleSheet.create({
   infoModal: {
-    // margin: 40,
     backgroundColor: colors.background,
     borderRadius: 10,
     paddingRight: 20,
@@ -44,7 +43,6 @@ const styles = StyleSheet.create({
   },
 
   infoText: {
-    // margin: 20,
     fontSize: 20,
     color: colors.primary,
     fontWeight: '600',
@@ -54,15 +52,15 @@ const styles = StyleSheet.create({
 
   closeBtn: {
     position: 'absolute',
-    top: 10,
-    right: -5,
+    top: -10,
+    right: -30,
     zIndex: 1
   },
 
-  arrow: {
+  close: {
     transform: [{ rotate: '270deg' }],
-    height: 100,
-    width: 100
+    height: 140,
+    width: 140
   }
 });
 
