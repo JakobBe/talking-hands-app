@@ -9,30 +9,18 @@ class CustomHeader extends React.Component {
   searchInput = new Animated.Value(0);
   searchInputBorder = new Animated.Value(0);
 
-  toggleSearchInput = (shouldCallContext) => {
-    const isSearchOpen = this.props.gestureContext.isSearchOpen;
-
-    if (shouldCallContext) {
-      this.props.gestureContext.toggleSearch(!isSearchOpen);
-    }
-
+  toggleSearchInput = (open) => {
     Animated.timing(this.searchInput, {
-      toValue: isSearchOpen ? 0 : 270,
+      toValue: open ? 270 : 0,
       duration: 400,
       useNativeDriver: false
     }).start();
 
     Animated.timing(this.searchInputBorder, {
-      toValue: isSearchOpen ? 0 : 2,
+      toValue: open ? 2 : 0,
       duration: 400,
       useNativeDriver: false
     }).start();
-
-    if (isSearchOpen === false) {
-      this.secondTextInput.focus();
-    } else if (isSearchOpen) {
-      this.secondTextInput.blur();
-    }
   }
 
   onBack = () => {
@@ -42,26 +30,32 @@ class CustomHeader extends React.Component {
   onSearchQueryChange = (searchQuery) => {
     this.props.gestureContext.updateSearchQuery(searchQuery);
 
-    const scene = Actions.currentScene;
-
-    if (scene !== 'gestureIndex') {
-      this.chnageToGestureIndex(searchQuery);
-    } else {
-      Actions.refresh({ searchQuery });
+    if (Actions.currentScene !== 'gestureIndex') {
+      this.chnageToGestureIndex();
     }
   }
 
-  chnageToGestureIndex = async (searchQuery) => {
-    console.log('Change to gesture index');
-    await Actions.gestureIndex({ searchQuery, type: ActionConst.RESET });
-    this.secondTextInput.focus();
+  chnageToGestureIndex = async () => {
+    await Actions.gestureIndex({ type: ActionConst.RESET });
+    this.searchInputRef.focus();
+  }
+
+  onMagnifierClick = () => {
+    if (this.searchInputRef.isFocused()) {
+      this.searchInputRef.blur();
+    } else {
+      this.searchInputRef.focus();
+    }
   }
 
   onSearchBlur = () => {
     console.log('BLURRRR');
-    if (Actions.currentScene !== 'gestureIndex') {
-      this.toggleSearchInput(true);
-    }
+    this.toggleSearchInput(false);
+  }
+
+  onSearchFocus = () => {
+    console.log('FOCUS');
+    this.toggleSearchInput(true);
   }
 
   getTitle = () => {
@@ -123,14 +117,15 @@ class CustomHeader extends React.Component {
         >
           <TextInput
             style={styles.searchInputText}
-            ref={(input) => { this.secondTextInput = input; }}
+            ref={(input) => { this.searchInputRef = input; }}
             onChangeText={this.onSearchQueryChange}
             value={this.props.gestureContext.searchQuery}
             onBlur={this.onSearchBlur}
+            onFocus={this.onSearchFocus}
           >
           </TextInput>
         </Animated.View>
-        <TouchableOpacity style={styles.rightIcon} onPress={() => this.toggleSearchInput(true)}>
+        <TouchableOpacity style={styles.rightIcon} onPress={this.onMagnifierClick}>
           <Image
             source={require('../../../assets/images/search.png')}
             style={styles.icon}
