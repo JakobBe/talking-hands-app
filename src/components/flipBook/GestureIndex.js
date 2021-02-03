@@ -54,9 +54,9 @@ class GestureIndex extends React.Component {
 
   onGesturePress = (gesture) => {
     const { gifUrl, mp3Url, drawingUrl, name } = gesture;
-    const searchQuery = this.props.gestureContext.searchQuery;
 
-    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name, searchQuery });
+    this.props.gestureContext.updateSearchQuery('');
+    Actions.gesture({ gifUrl, mp3Url, drawingUrl, gestureName: name });
   };
 
   render() {
