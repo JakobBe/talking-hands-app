@@ -49,12 +49,10 @@ class CustomHeader extends React.Component {
   }
 
   onSearchBlur = () => {
-    console.log('BLURRRR');
     this.toggleSearchInput(false);
   }
 
   onSearchFocus = () => {
-    console.log('FOCUS');
     this.toggleSearchInput(true);
   }
 
