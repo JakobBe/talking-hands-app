@@ -6,6 +6,10 @@ import { GestureContext } from '../GestureContextHolder';
 
 const Footer = (props) => {
   const onCategoriesPress = () => {
+    if (props.gestureContext.searchQuery) {
+      props.gestureContext.updateSearchQuery('');
+    }
+
     Actions.categories({ type: ActionConst.RESET, title: 'Kategorien' });
   };
 
@@ -18,6 +22,10 @@ const Footer = (props) => {
   };
 
   const onAlphaPress = () => {
+    if (props.gestureContext.searchQuery) {
+      props.gestureContext.updateSearchQuery('');
+    }
+
     Actions.gestureIndex({ type: ActionConst.RESET });
   };
 
