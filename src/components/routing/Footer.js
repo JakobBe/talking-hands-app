@@ -51,6 +51,14 @@ const Footer = (props) => {
     );
   }
 
+  const getActiveIndicator = (isActive) => {
+    if (isActive) {
+      return (
+        <View style={styles.activeIndicator} />
+      );
+    }
+  }
+
   return (
     <View style={styles.footer}>
       <TouchableOpacity onPress={onHomePress}>
@@ -59,11 +67,13 @@ const Footer = (props) => {
           style={styles.icon(false)}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={onAlphaPress}>
+      <TouchableOpacity onPress={onAlphaPress} style={{ flex: 0, position: 'relative' }}>
         {getAlphaImage(props.navigation.state.routeName === 'gestureIndex')}
+        {getActiveIndicator(props.navigation.state.routeName === 'gestureIndex')}
       </TouchableOpacity>
       <TouchableOpacity onPress={onCategoriesPress}>
         {getCategoriesImage(props.navigation.state.routeName === 'categories')}
+        {getActiveIndicator(props.navigation.state.routeName === 'categories')}
       </TouchableOpacity>
     </View>
   );
@@ -83,9 +93,20 @@ const styles = {
     return {
       height: 120,
       width: 120,
-      opacity: 1
+      opacity: 1,
     };
   },
+
+  activeIndicator: {
+    width: 50,
+    marginTop: 5,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: colors.guk,
+    position: 'absolute',
+    top: 75,
+    right: 35
+  }
 };
 
 export default (props) => (
