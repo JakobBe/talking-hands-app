@@ -13,7 +13,7 @@ import { Actions } from 'react-native-router-flux';
 import { GestureContext } from '../GestureContextHolder';
 import Footer from '../routing/Footer';
 import { colors } from '../../helpers/styles';
-import { sortByKey } from '../../helpers/functions';
+import { sortByKey, weightedSearch } from '../../helpers/functions';
 
 class GestureIndex extends React.Component {
   state = {
@@ -42,11 +42,8 @@ class GestureIndex extends React.Component {
     }
 
     if (searchQuery) {
-      gestures = gestures.filter((gesture) =>
-        gesture.name
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()),
-      );
+      gestures = weightedSearch({ array: gestures, key: 'name', query: searchQuery });
+      return gestures;
     }
 
     return sortByKey(gestures, 'name');
