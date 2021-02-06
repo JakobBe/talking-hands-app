@@ -16,3 +16,20 @@ export const sortByKey = (array, key) => {
 export const findInArrayOfObjects = (array, key, searchValue) => {
   return array.find(element => element[key] === searchValue);
 };
+
+export const weightedSearch = ({ array, query, key }) => {
+  const lowercaseQuery = query.toLowerCase();
+
+  const searchArray = array.filter((element) => {
+    return element[key].toLowerCase().includes(lowercaseQuery);
+  });
+
+  const weightedArray = searchArray.sort((element, nextElement) => {
+    const elementQueryIndex = element[key].toLowerCase().indexOf(lowercaseQuery);
+    const nextElementQueryIndex = nextElement[key].toLowerCase().indexOf(lowercaseQuery);
+
+    return elementQueryIndex - nextElementQueryIndex;
+  });
+
+  return weightedArray;
+}
